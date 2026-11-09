@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vitor Recacho</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Vitor Recacho: Bayesian spatio-temporal modeling of streamflow, extreme rainfall, natural hazards and climate risk.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one left-aligned reading column; a simulated streamflow decomposition sits under the name as the page's signature. */
+:root {
+  --bg: #f3f6f5;
+  --surface: #e6eceb;
+  --fg: #142120;
+  --muted: #566664;
+  --line: #cfd9d7;
+  --accent: #0b6762;
+  --band: rgba(11,103,98,.18);
+  --series: #94a5a2;
+  --display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1615; --surface: #18221f; --fg: #e1e9e7; --muted: #93a39f; --line: #27342f;
+    --accent: #5ec0b5; --band: rgba(94,192,181,.2); --series: #5a6b67; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1615; --surface: #18221f; --fg: #e1e9e7; --muted: #93a39f; --line: #27342f;
+  --accent: #5ec0b5; --band: rgba(94,192,181,.2); --series: #5a6b67; color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg);
+  font: 17px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 44rem; margin: 0 auto; padding-block: 3.5rem 4rem; display: grid; gap: 3rem; }
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+header { display: grid; gap: 1rem; }
+h1 { font: 600 clamp(2.4rem, 7vw, 3.4rem)/1.05 var(--display); letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+.role { margin: 0; color: var(--muted); font-size: 1.05rem; }
+.role strong { color: var(--fg); font-weight: 600; }
+figure { margin: .5rem 0 0; }
+figure svg { display: block; width: 100%; max-width: 100%; height: auto; }
+figcaption { font: 12.5px/1.45 var(--mono); color: var(--muted); margin-top: .4rem; }
+.lede { margin: 0; max-width: 62ch; }
+.links { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; align-items: center; font-size: .95rem; }
+.email { display: inline-flex; gap: .5rem; align-items: center; font-family: var(--mono); font-size: .9rem; }
+.email span { user-select: all; }
+button.copy {
+  font: 500 .75rem var(--mono); letter-spacing: .04em; text-transform: uppercase;
+  background: var(--surface); color: var(--fg); border: 1px solid var(--line);
+  border-radius: 4px; padding: .2rem .5rem; cursor: pointer;
+}
+
+section { display: grid; gap: 1rem; }
+h2 {
+  font: 600 .78rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); margin: 0; padding-bottom: .6rem; border-bottom: 1px solid var(--line);
+}
+h3 { font: 600 1.05rem/1.3 var(--body); margin: 0; }
+p { margin: 0; }
+
+.themes { display: grid; gap: 1.1rem; }
+.themes div { display: grid; gap: .2rem; }
+.themes p { color: var(--muted); }
+
+ol.pubs, ul.list { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+.pub { display: grid; grid-template-columns: 5.2rem minmax(0,1fr); gap: 0 1rem; }
+.yr { font: 500 .85rem/1.7 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.pub .t { font-weight: 600; }
+.pub .meta { color: var(--muted); }
+.pub em { font-style: italic; color: var(--fg); }
+.me { color: var(--fg); font-weight: 600; }
+.doi { font: .82rem var(--mono); overflow-wrap: anywhere; }
+.sub { font: 600 .9rem var(--body); color: var(--fg); margin: .6rem 0 0; }
+.note { color: var(--muted); font-size: .95rem; }
+
+.rows { display: grid; gap: .55rem; }
+.row { display: grid; grid-template-columns: 5.2rem minmax(0,1fr); gap: 0 1rem; }
+.row .yr { line-height: 1.75; }
+
+footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); padding-top: 1.25rem; display: grid; gap: .3rem; }
+
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  .wrap { padding-block: 2.25rem 3rem; gap: 2.5rem; }
+  .pub, .row { grid-template-columns: 1fr; }
+  .yr { line-height: 1.4; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .trend { stroke-dasharray: 900; stroke-dashoffset: 0; animation: draw 1.6s ease-out both; }
+  @keyframes draw { from { stroke-dashoffset: 900; } to { stroke-dashoffset: 0; } }
+}
+</style>
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Vitor Recacho</h1>
+    <p class="role"><strong>PhD candidate in Economics</strong>, University of São Paulo (FEA-RP) · Visiting researcher, ITC, University of Twente</p>
+    <figure>
+      <svg viewBox="0 0 640 150" role="img" aria-label="Simulated monthly streamflow with its posterior trend and 95% credible band">
+        <path d="M8.0,78.1 L12.4,77.2 L16.7,76.3 L21.1,75.4 L25.5,74.5 L29.8,73.6 L34.2,72.8 L38.5,71.9 L42.9,71.1 L47.3,70.3 L51.6,69.5 L56.0,68.8 L60.4,68.0 L64.7,67.3 L69.1,66.7 L73.5,66.0 L77.8,65.5 L82.2,64.9 L86.5,64.4 L90.9,63.9 L95.3,63.5 L99.6,63.1 L104.0,62.8 L108.4,62.5 L112.7,62.2 L117.1,62.0 L121.5,61.8 L125.8,61.7 L130.2,61.6 L134.5,61.6 L138.9,61.6 L143.3,61.7 L147.6,61.7 L152.0,61.9 L156.4,62.0 L160.7,62.2 L165.1,62.4 L169.5,62.7 L173.8,63.0 L178.2,63.3 L182.5,63.7 L186.9,64.0 L191.3,64.4 L195.6,64.8 L200.0,65.2 L204.4,65.6 L208.7,66.1 L213.1,66.5 L217.5,67.0 L221.8,67.4 L226.2,67.9 L230.5,68.3 L234.9,68.7 L239.3,69.1 L243.6,69.5 L248.0,69.9 L252.4,70.3 L256.7,70.6 L261.1,70.9 L265.5,71.2 L269.8,71.5 L274.2,71.7 L278.5,71.9 L282.9,72.1 L287.3,72.2 L291.6,72.3 L296.0,72.3 L300.4,72.3 L304.7,72.3 L309.1,72.2 L313.5,72.1 L317.8,71.9 L322.2,71.7 L326.5,71.5 L330.9,71.2 L335.3,70.8 L339.6,70.4 L344.0,70.0 L348.4,69.5 L352.7,69.0 L357.1,68.5 L361.5,67.9 L365.8,67.3 L370.2,66.6 L374.5,65.9 L378.9,65.2 L383.3,64.4 L387.6,63.6 L392.0,62.8 L396.4,62.0 L400.7,61.2 L405.1,60.3 L409.5,59.4 L413.8,58.5 L418.2,57.6 L422.5,56.7 L426.9,55.8 L431.3,54.9 L435.6,54.0 L440.0,53.1 L444.4,52.2 L448.7,51.3 L453.1,50.5 L457.5,49.6 L461.8,48.8 L466.2,48.0 L470.5,47.2 L474.9,46.4 L479.3,45.7 L483.6,45.0 L488.0,44.4 L492.4,43.7 L496.7,43.1 L501.1,42.6 L505.5,42.1 L509.8,41.6 L514.2,41.2 L518.5,40.8 L522.9,40.4 L527.3,40.1 L531.6,39.9 L536.0,39.7 L540.4,39.5 L544.7,39.4 L549.1,39.3 L553.5,39.3 L557.8,39.3 L562.2,39.3 L566.5,39.4 L570.9,39.5 L575.3,39.7 L579.6,39.9 L584.0,40.1 L588.4,40.4 L592.7,40.7 L597.1,41.0 L601.5,41.3 L605.8,41.7 L610.2,42.1 L614.5,42.5 L618.9,42.9 L623.3,43.3 L627.6,43.8 L632.0,44.2 L632.0,75.5 L627.6,74.9 L623.3,74.4 L618.9,73.9 L614.5,73.4 L610.2,72.9 L605.8,72.4 L601.5,72.0 L597.1,71.6 L592.7,71.2 L588.4,70.8 L584.0,70.4 L579.6,70.1 L575.3,69.8 L570.9,69.6 L566.5,69.4 L562.2,69.2 L557.8,69.1 L553.5,69.0 L549.1,68.9 L544.7,68.9 L540.4,69.0 L536.0,69.0 L531.6,69.2 L527.3,69.3 L522.9,69.6 L518.5,69.8 L514.2,70.1 L509.8,70.5 L505.5,70.8 L501.1,71.3 L496.7,71.7 L492.4,72.2 L488.0,72.8 L483.6,73.3 L479.3,74.0 L474.9,74.6 L470.5,75.3 L466.2,76.0 L461.8,76.7 L457.5,77.4 L453.1,78.2 L448.7,79.0 L444.4,79.8 L440.0,80.6 L435.6,81.4 L431.3,82.2 L426.9,83.0 L422.5,83.8 L418.2,84.7 L413.8,85.5 L409.5,86.3 L405.1,87.1 L400.7,87.9 L396.4,88.6 L392.0,89.4 L387.6,90.1 L383.3,90.8 L378.9,91.4 L374.5,92.1 L370.2,92.7 L365.8,93.3 L361.5,93.8 L357.1,94.3 L352.7,94.8 L348.4,95.2 L344.0,95.6 L339.6,95.9 L335.3,96.2 L330.9,96.5 L326.5,96.7 L322.2,96.9 L317.8,97.0 L313.5,97.1 L309.1,97.1 L304.7,97.1 L300.4,97.1 L296.0,97.0 L291.6,96.8 L287.3,96.7 L282.9,96.4 L278.5,96.2 L274.2,95.9 L269.8,95.6 L265.5,95.3 L261.1,94.9 L256.7,94.5 L252.4,94.0 L248.0,93.6 L243.6,93.1 L239.3,92.6 L234.9,92.1 L230.5,91.6 L226.2,91.1 L221.8,90.6 L217.5,90.0 L213.1,89.5 L208.7,89.0 L204.4,88.5 L200.0,88.0 L195.6,87.5 L191.3,87.0 L186.9,86.5 L182.5,86.1 L178.2,85.6 L173.8,85.2 L169.5,84.8 L165.1,84.5 L160.7,84.2 L156.4,83.9 L152.0,83.7 L147.6,83.4 L143.3,83.3 L138.9,83.1 L134.5,83.0 L130.2,83.0 L125.8,83.0 L121.5,83.0 L117.1,83.1 L112.7,83.2 L108.4,83.4 L104.0,83.6 L99.6,83.9 L95.3,84.2 L90.9,84.5 L86.5,84.9 L82.2,85.3 L77.8,85.8 L73.5,86.3 L69.1,86.8 L64.7,87.4 L60.4,88.0 L56.0,88.7 L51.6,89.3 L47.3,90.0 L42.9,90.7 L38.5,91.5 L34.2,92.2 L29.8,93.0 L25.5,93.8 L21.1,94.6 L16.7,95.4 L12.4,96.3 L8.0,97.1 Z" fill="var(--band)" stroke="none"/>
+        <path d="M8.0,122.8 L12.4,100.8 L16.7,88.0 L21.1,69.1 L25.5,60.2 L29.8,47.5 L34.2,39.2 L38.5,58.7 L42.9,71.1 L47.3,96.7 L51.6,108.5 L56.0,114.8 L60.4,126.6 L64.7,88.2 L69.1,72.0 L73.5,52.5 L77.8,58.8 L82.2,53.7 L86.5,50.3 L90.9,59.7 L95.3,70.9 L99.6,92.9 L104.0,101.1 L108.4,116.9 L112.7,102.6 L117.1,87.8 L121.5,78.7 L125.8,37.1 L130.2,34.2 L134.5,23.1 L138.9,45.4 L143.3,60.5 L147.6,75.8 L152.0,92.7 L156.4,99.8 L160.7,108.7 L165.1,110.5 L169.5,101.8 L173.8,79.0 L178.2,44.0 L182.5,49.7 L186.9,35.1 L191.3,38.8 L195.6,71.3 L200.0,76.1 L204.4,83.6 L208.7,129.4 L213.1,119.0 L217.5,112.3 L221.8,105.7 L226.2,74.8 L230.5,61.6 L234.9,61.5 L239.3,35.1 L243.6,42.2 L248.0,53.8 L252.4,68.5 L256.7,98.1 L261.1,114.6 L265.5,133.4 L269.8,110.5 L274.2,108.6 L278.5,88.3 L282.9,77.3 L287.3,60.8 L291.6,51.7 L296.0,39.6 L300.4,85.0 L304.7,98.5 L309.1,101.3 L313.5,103.7 L317.8,116.9 L322.2,135.1 L326.5,126.9 L330.9,80.4 L335.3,71.6 L339.6,61.0 L344.0,35.6 L348.4,39.1 L352.7,61.5 L357.1,79.1 L361.5,95.7 L365.8,98.0 L370.2,111.7 L374.5,106.9 L378.9,92.1 L383.3,92.5 L387.6,45.8 L392.0,34.2 L396.4,32.4 L400.7,60.4 L405.1,60.7 L409.5,64.9 L413.8,108.1 L418.2,105.7 L422.5,98.5 L426.9,114.7 L431.3,72.2 L435.6,62.5 L440.0,49.3 L444.4,30.1 L448.7,21.1 L453.1,30.4 L457.5,33.7 L461.8,69.0 L466.2,84.8 L470.5,84.2 L474.9,98.2 L479.3,101.0 L483.6,69.2 L488.0,44.7 L492.4,43.2 L496.7,37.7 L501.1,20.3 L505.5,25.0 L509.8,39.9 L514.2,42.3 L518.5,84.0 L522.9,75.9 L527.3,104.7 L531.6,94.8 L536.0,67.3 L540.4,43.5 L544.7,27.1 L549.1,18.0 L553.5,14.9 L557.8,19.9 L562.2,29.9 L566.5,56.1 L570.9,70.9 L575.3,82.2 L579.6,92.9 L584.0,80.9 L588.4,69.2 L592.7,36.9 L597.1,34.3 L601.5,27.9 L605.8,22.7 L610.2,24.8 L614.5,30.2 L618.9,61.6 L623.3,74.2 L627.6,74.8 L632.0,122.0" fill="none" stroke="var(--series)" stroke-width="1.2" stroke-linejoin="round"/>
+        <path class="trend" d="M8.0,87.6 L12.4,86.7 L16.7,85.9 L21.1,85.0 L25.5,84.2 L29.8,83.3 L34.2,82.5 L38.5,81.7 L42.9,80.9 L47.3,80.2 L51.6,79.4 L56.0,78.7 L60.4,78.0 L64.7,77.4 L69.1,76.8 L73.5,76.2 L77.8,75.6 L82.2,75.1 L86.5,74.6 L90.9,74.2 L95.3,73.8 L99.6,73.5 L104.0,73.2 L108.4,72.9 L112.7,72.7 L117.1,72.6 L121.5,72.4 L125.8,72.3 L130.2,72.3 L134.5,72.3 L138.9,72.4 L143.3,72.5 L147.6,72.6 L152.0,72.8 L156.4,73.0 L160.7,73.2 L165.1,73.5 L169.5,73.8 L173.8,74.1 L178.2,74.5 L182.5,74.9 L186.9,75.3 L191.3,75.7 L195.6,76.1 L200.0,76.6 L204.4,77.1 L208.7,77.5 L213.1,78.0 L217.5,78.5 L221.8,79.0 L226.2,79.5 L230.5,80.0 L234.9,80.4 L239.3,80.9 L243.6,81.3 L248.0,81.8 L252.4,82.2 L256.7,82.5 L261.1,82.9 L265.5,83.2 L269.8,83.5 L274.2,83.8 L278.5,84.1 L282.9,84.3 L287.3,84.4 L291.6,84.6 L296.0,84.6 L300.4,84.7 L304.7,84.7 L309.1,84.7 L313.5,84.6 L317.8,84.5 L322.2,84.3 L326.5,84.1 L330.9,83.8 L335.3,83.5 L339.6,83.2 L344.0,82.8 L348.4,82.4 L352.7,81.9 L357.1,81.4 L361.5,80.8 L365.8,80.3 L370.2,79.6 L374.5,79.0 L378.9,78.3 L383.3,77.6 L387.6,76.9 L392.0,76.1 L396.4,75.3 L400.7,74.5 L405.1,73.7 L409.5,72.8 L413.8,72.0 L418.2,71.1 L422.5,70.3 L426.9,69.4 L431.3,68.5 L435.6,67.7 L440.0,66.8 L444.4,66.0 L448.7,65.1 L453.1,64.3 L457.5,63.5 L461.8,62.7 L466.2,62.0 L470.5,61.2 L474.9,60.5 L479.3,59.8 L483.6,59.2 L488.0,58.6 L492.4,58.0 L496.7,57.4 L501.1,56.9 L505.5,56.5 L509.8,56.0 L514.2,55.6 L518.5,55.3 L522.9,55.0 L527.3,54.7 L531.6,54.5 L536.0,54.4 L540.4,54.2 L544.7,54.2 L549.1,54.1 L553.5,54.1 L557.8,54.2 L562.2,54.3 L566.5,54.4 L570.9,54.6 L575.3,54.8 L579.6,55.0 L584.0,55.3 L588.4,55.6 L592.7,55.9 L597.1,56.3 L601.5,56.7 L605.8,57.1 L610.2,57.5 L614.5,57.9 L618.9,58.4 L623.3,58.9 L627.6,59.3 L632.0,59.8" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <figcaption>Simulated monthly streamflow (grey) and its posterior long-run trend with a 95% credible band.</figcaption>
+    </figure>
+    <p class="lede">I build Bayesian spatio-temporal models for environmental data: streamflow on river networks, extreme rainfall, landslides and wildfires, and the economic losses they cause. Most of my work uses latent Gaussian models fitted with INLA and SPDE methods. I am now moving toward spatial extremes and toward how physical climate risk turns into financial risk.</p>
+    <div class="links">
+      <span class="email"><span id="addr">vitorrecacho@usp.br</span><button class="copy" id="copy-email" type="button">Copy</button></span>
+      <a href="https://orcid.org/0000-0001-5452-0405" target="_blank" rel="noopener">ORCID 0000-0001-5452-0405</a>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-research">
+    <h2 id="h-research">Research</h2>
+    <div class="themes">
+      <div>
+        <h3>Streamflow and river networks</h3>
+        <p>Structural decomposition of streamflow into trend, seasonality and long memory, from single gauges to whole basins, including SPDE models on river-network metric graphs for the Amazon.</p>
+      </div>
+      <div>
+        <h3>Extreme rainfall and natural hazards</h3>
+        <p>Log-Gaussian Cox processes for extreme rainfall in Brazil, joint models for landslides, debris flows and rockfall, and dynamic models of wildfire activity.</p>
+      </div>
+      <div>
+        <h3>Climate risk and economics</h3>
+        <p>Translating hazard models into expected losses, VaR and TVaR, and testing whether markets such as Brazil's subsidized rural insurance price climate risk.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-pubs">
+    <h2 id="h-pubs">Publications</h2>
+    <ol class="pubs">
+      <li class="pub"><span class="yr">In press</span><div><span class="me">Recacho, V. S.</span> and Laurini, M. P. <span class="t">Spatio-temporal modeling of extreme rainfall occurrence in Brazil.</span> <em>International Journal of Climatology</em>. <a class="doi" href="https://doi.org/10.1002/joc.70671" target="_blank" rel="noopener">doi:10.1002/joc.70671</a></div></li>
+      <li class="pub"><span class="yr">2026</span><div>Franco, J. P. M., <span class="me">Recacho, V. S.</span>, Soares, G. C. and Laurini, M. P. <span class="t">A deep U-Net kriging framework for interpolating remote sensing images.</span> <em>IEEE Geoscience and Remote Sensing Letters</em>. <a class="doi" href="https://doi.org/10.1109/LGRS.2026.3708253" target="_blank" rel="noopener">doi:10.1109/LGRS.2026.3708253</a></div></li>
+      <li class="pub"><span class="yr">2026</span><div>Ahmed, M., <span class="me">Recacho, V. S.</span>, Titti, G., Uchida, T., Borgatti, L., Morales, A. B., Francioni, M. and Lombardo, L. <span class="t">On the use of rainfall time series for regional landslide prediction by means of functional regression.</span> <em>Engineering Geology</em>, 371, 108860. <a class="doi" href="https://doi.org/10.1016/j.enggeo.2026.108860" target="_blank" rel="noopener">doi:10.1016/j.enggeo.2026.108860</a></div></li>
+      <li class="pub"><span class="yr">2026</span><div>Pelaez, V. M., <span class="me">Recacho, V. S.</span> and Monteiro, L. <span class="t">A inserção do Brasil no mercado internacional de agrotóxicos</span> [Brazil's integration into the international pesticide market]. In Pereira, E. M., Casazza, I. F. and Lignani, L. B. (Eds.), <em>História dos agrotóxicos no Brasil</em>. Editora Fiocruz. Book chapter, in Portuguese. <a class="doi" href="https://doi.org/10.7476/9786557083062" target="_blank" rel="noopener">doi:10.7476/9786557083062</a></div></li>
+      <li class="pub"><span class="yr">2025</span><div><span class="me">Recacho, V. S.</span> and Laurini, M. P. <span class="t">Bayesian structural decomposition of streamflow time series.</span> <em>Journal of Hydrology</em>, 649, 132478. <a class="doi" href="https://doi.org/10.1016/j.jhydrol.2024.132478" target="_blank" rel="noopener">doi:10.1016/j.jhydrol.2024.132478</a></div></li>
+    </ol>
+
+    <p class="sub">Under review</p>
+    <ol class="pubs">
+      <li class="pub"><span class="yr">2nd round</span><div><span class="me">Recacho, V. S.</span>, Morales, A. B. and Laurini, M. P. <span class="t">Detecting basin-wide hydrological change through multivariate structural streamflow modeling.</span> <em>Stochastic Environmental Research and Risk Assessment</em>.</div></li>
+      <li class="pub"><span class="yr">Review</span><div><span class="me">Recacho, V. S.</span>, Morales, A. B., Lombardo, L. and Laurini, M. P. <span class="t">Bayesian spatio-temporal streamflow decomposition on river network metric graphs: an application to the Amazon basin.</span> <em>Journal of Hydrology</em>.</div></li>
+      <li class="pub"><span class="yr">Review</span><div>Laurini, M. P., <span class="me">Recacho, V. S.</span>, Morales, A. B., Lombardo, L. and Valls Pereira, P. L. <span class="t">Ecological heterogeneity in global warming across terrestrial biomes.</span> <em>Communications Earth &amp; Environment</em>.</div></li>
+      <li class="pub"><span class="yr">Review</span><div>Du, B., <span class="me">Recacho, V. S.</span>, Wang, Y., Fang, Z., Fang, C., Morales, A. B. and Lombardo, L. <span class="t">Jointly estimating multiple geomorphological hazards and risks at national scales: a spatial modeling perspective.</span> <em>Earth-Science Reviews</em>.</div></li>
+      <li class="pub"><span class="yr">Review</span><div>Du, B., Wang, Y., <span class="me">Recacho, V. S.</span>, Tonini, M., Morales, A. B. and Lombardo, L. <span class="t">Over five decades of climate-related disaster losses in Switzerland: modeling losses due to hydromorphological hazards through rainfall anomalies.</span> <em>International Journal of Applied Earth Observation and Geoinformation</em>.</div></li>
+      <li class="pub"><span class="yr">Review</span><div>Laurini, M. P., Quispe, A. D. M., <span class="me">Recacho, V. S.</span> and Valls Pereira, P. L. <span class="t">Tabular foundation models for conditional income convergence.</span> <em>Economics Letters</em>.</div></li>
+      <li class="pub"><span class="yr">Review</span><div>Santos, G. C. A., <span class="me">Recacho, V. S.</span> and Laurini, M. P. <span class="t">From counts to extremes: a dynamic Bayesian analysis of wildfire activity in São Paulo.</span> <em>Natural Hazards</em>.</div></li>
+      <li class="pub"><span class="yr">Review</span><div>Zhang, Y., Du, B., <span class="me">Recacho, V. S.</span>, Fang, Z. and Lombardo, L. <span class="t">Decoupling seasonal trends in landslide probability and associated intensity in the East Asian Monsoon region.</span></div></li>
+    </ol>
+
+    <p class="sub">In preparation</p>
+    <p class="note">Spatio-temporal natural hazard risk modeling for Switzerland · Climate risk pricing in Brazil's subsidized rural insurance program · Bayesian modeling of wildfire durations</p>
+  </section>
+
+  <section aria-labelledby="h-grants">
+    <h2 id="h-grants">Grants and fellowships</h2>
+    <div class="rows">
+      <div class="row"><span class="yr">2026</span><p>Industrial Fellowship, Luxembourg National Research Fund (FNR), project SHIFT (Ref. 2001262), principal applicant. Recommended for funding by the Scientific Evaluation Panel; not funded.</p></div>
+      <div class="row"><span class="yr">2025</span><p>Research computing grant, SURF (Netherlands), project EINF-16355: competitive access to the Snellius national supercomputer.</p></div>
+      <div class="row"><span class="yr">2025–26</span><p>Visiting PhD scholarship, CAPES (88881.126329/2025-01), ITC, University of Twente.</p></div>
+      <div class="row"><span class="yr">2023–27</span><p>PhD scholarship, CAPES.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-talks">
+    <h2 id="h-talks">Presentations</h2>
+    <div class="rows">
+      <div class="row"><span class="yr">2027</span><p>Bayesian streamflow decomposition on river network metric graphs. Poster, COBAL–EBEB, Búzios (accepted).</p></div>
+      <div class="row"><span class="yr">2026</span><p>Bayesian streamflow decomposition on river network metric graphs. Poster, STODAD Workshop on Time Series, Wavelets and High Dimensional Data, Campinas.</p></div>
+      <div class="row"><span class="yr">2024</span><p>Bayesian structural decomposition of streamflow time series. Talk, 25th Brazilian Symposium on Probability and Statistics (SINAPE), Fortaleza.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-teach">
+    <h2 id="h-teach">Teaching and service</h2>
+    <div class="rows">
+      <div class="row"><span class="yr">2024–25</span><p>Teaching assistant at FEA-RP/USP: Econometrics III (undergraduate and graduate), Applied Statistics (graduate), Introduction to Probability and Statistics II.</p></div>
+      <div class="row"><span class="yr">2024–26</span><p>Member of the graduate program coordination committee, FEA-RP/USP (deputy member 2024–25, full member 2025–26).</p></div>
+      <div class="row"><span class="yr">Referee</span><p>International Review of Economics &amp; Finance · Journal of Land Use Science · Regional Environmental Change</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Department of Economics, FEA-RP, University of São Paulo · Av. dos Bandeirantes 3900, Ribeirão Preto, SP, Brazil</p>
+    <p>Software: R (R-INLA, inlabru), Python (PyTorch), Google Earth Engine, HPC with SLURM.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById("copy-email");
+  var addr = document.getElementById("addr");
+  btn.addEventListener("click", function () {
+    var text = addr.textContent;
+    var done = function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1600); };
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents(addr);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = "Selected";
+      setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+
+</body>
+</html>
