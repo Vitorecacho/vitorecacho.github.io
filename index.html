@@ -12,27 +12,27 @@
 <style>
 /* Layout: one left-aligned reading column; a simulated streamflow decomposition sits under the name as the page's signature. */
 :root {
-  --bg: #f3f6f5;
-  --surface: #e6eceb;
-  --fg: #142120;
-  --muted: #566664;
-  --line: #cfd9d7;
-  --accent: #0b6762;
-  --band: rgba(11,103,98,.18);
-  --series: #94a5a2;
+  --bg: #fafafa;
+  --surface: #eef0f2;
+  --fg: #1c2026;
+  --muted: #5d6570;
+  --line: #e1e4e8;
+  --accent: #2f5d8a;
+  --band: rgba(47,93,138,.14);
+  --series: #aab1b9;
   --display: "Source Serif 4", Georgia, "Times New Roman", serif;
   --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0e1615; --surface: #18221f; --fg: #e1e9e7; --muted: #93a39f; --line: #27342f;
-    --accent: #5ec0b5; --band: rgba(94,192,181,.2); --series: #5a6b67; color-scheme: dark;
+    --bg: #131518; --surface: #1c1f24; --fg: #e5e7ea; --muted: #9aa1aa; --line: #2b2f36;
+    --accent: #8db3da; --band: rgba(141,179,218,.18); --series: #5e6671; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0e1615; --surface: #18221f; --fg: #e1e9e7; --muted: #93a39f; --line: #27342f;
-  --accent: #5ec0b5; --band: rgba(94,192,181,.2); --series: #5a6b67; color-scheme: dark;
+  --bg: #131518; --surface: #1c1f24; --fg: #e5e7ea; --muted: #9aa1aa; --line: #2b2f36;
+    --accent: #8db3da; --band: rgba(141,179,218,.18); --series: #5e6671; color-scheme: dark;
 }
 body {
   background: var(--bg); color: var(--fg);
@@ -135,6 +135,7 @@ footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line
       <span class="email"><span id="addr">vitorrecacho@usp.br</span><button class="copy" id="copy-email" type="button">Copy</button></span>
       <a href="https://github.com/Vitorecacho" target="_blank" rel="noopener">GitHub</a>
       <a href="https://orcid.org/0000-0001-5452-0405" target="_blank" rel="noopener">ORCID 0000-0001-5452-0405</a>
+      <a href="http://lattes.cnpq.br/6137829916933616" target="_blank" rel="noopener">Lattes</a>
     </div>
   </header>
 
