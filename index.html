@@ -130,7 +130,7 @@ footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line
       </svg>
       <figcaption>Simulated monthly streamflow (grey) and its posterior long-run trend with a 95% credible band.</figcaption>
     </figure>
-    <p class="lede">I build Bayesian spatio-temporal models for environmental data: streamflow on river networks, extreme rainfall, landslides and wildfires, and the economic losses they cause. Most of my work uses latent Gaussian models fitted with INLA and SPDE methods. I am now moving toward spatial extremes and toward how physical climate risk turns into financial risk.</p>
+    <p class="lede">I develop Bayesian spatio-temporal models for environmental risk. My work separates long-run change from natural variability in hydroclimatic data and links hazard models to economic losses. I am now extending this work to spatial extremes, where Gaussian models understate how often large events occur together.</p>
     <div class="links">
       <span class="email"><span id="addr">vitorrecacho@usp.br</span><button class="copy" id="copy-email" type="button">Copy</button></span>
       <a href="https://github.com/Vitorecacho" target="_blank" rel="noopener">GitHub</a>
@@ -144,16 +144,16 @@ footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line
     <h2 id="h-research">Research</h2>
     <div class="themes">
       <div>
-        <h3>Streamflow and river networks</h3>
-        <p>Structural decomposition of streamflow into trend, seasonality and long memory, from single gauges to whole basins, including SPDE models on river-network metric graphs for the Amazon.</p>
+        <h3>Bayesian spatio-temporal methods</h3>
+        <p>I build hierarchical models that split a signal into parts with a clear meaning (trend, seasonality, long memory, and spatial fields) and that scale to national datasets through INLA and SPDE methods. Recent work extends them to river networks and to point processes with heavy-tailed, extreme-value marks.</p>
       </div>
       <div>
-        <h3>Extreme rainfall and natural hazards</h3>
-        <p>Log-Gaussian Cox processes for extreme rainfall in Brazil, joint models for landslides, debris flows and rockfall, and dynamic models of wildfire activity.</p>
+        <h3>Detecting change in hydroclimate</h3>
+        <p>When does a streamflow or rainfall series show real long-run change, and when is it seasonality or persistent natural variability? I study this from single gauges to the Amazon river network, and for extreme rainfall across Brazil.</p>
       </div>
       <div>
-        <h3>Climate risk and economics</h3>
-        <p>Translating hazard models into expected losses, VaR and TVaR, and testing whether markets such as Brazil's subsidized rural insurance price climate risk.</p>
+        <h3>From hazards to losses</h3>
+        <p>Joint models of where hazards occur, how often, and how much damage they cause, turned into expected losses and tail risk under climate scenarios. I also test whether insurance prices this risk, using Brazil's subsidized rural insurance program.</p>
       </div>
     </div>
   </section>
@@ -161,9 +161,9 @@ footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line
   <section aria-labelledby="h-sel">
     <h2 id="h-sel">Selected publications</h2>
     <ol class="pubs">
-      <li class="pub"><span class="yr">2025</span><div><span class="me">Recacho, V. S.</span> and Laurini, M. P. <span class="t">Bayesian structural decomposition of streamflow time series.</span> <em>Journal of Hydrology</em>, 649, 132478. <a class="doi" href="https://doi.org/10.1016/j.jhydrol.2024.132478" target="_blank" rel="noopener">doi:10.1016/j.jhydrol.2024.132478</a></div></li>
-      <li class="pub"><span class="yr">2026</span><div>Ahmed, M., <span class="me">Recacho, V. S.</span>, Titti, G., Uchida, T., Borgatti, L., Morales, A. B., Francioni, M. and Lombardo, L. <span class="t">On the use of rainfall time series for regional landslide prediction by means of functional regression.</span> <em>Engineering Geology</em>, 371, 108860. <a class="doi" href="https://doi.org/10.1016/j.enggeo.2026.108860" target="_blank" rel="noopener">doi:10.1016/j.enggeo.2026.108860</a></div></li>
       <li class="pub"><span class="yr">In press</span><div><span class="me">Recacho, V. S.</span> and Laurini, M. P. <span class="t">Spatio-temporal modeling of extreme rainfall occurrence in Brazil.</span> <em>International Journal of Climatology</em>. <a class="doi" href="https://doi.org/10.1002/joc.70671" target="_blank" rel="noopener">doi:10.1002/joc.70671</a> · <a class="doi" href="https://doi.org/10.5281/zenodo.23891518" target="_blank" rel="noopener">code</a></div></li>
+      <li class="pub"><span class="yr">2026</span><div>Ahmed, M., <span class="me">Recacho, V. S.</span>, Titti, G., Uchida, T., Borgatti, L., Morales, A. B., Francioni, M. and Lombardo, L. <span class="t">On the use of rainfall time series for regional landslide prediction by means of functional regression.</span> <em>Engineering Geology</em>, 371, 108860. <a class="doi" href="https://doi.org/10.1016/j.enggeo.2026.108860" target="_blank" rel="noopener">doi:10.1016/j.enggeo.2026.108860</a></div></li>
+      <li class="pub"><span class="yr">2025</span><div><span class="me">Recacho, V. S.</span> and Laurini, M. P. <span class="t">Bayesian structural decomposition of streamflow time series.</span> <em>Journal of Hydrology</em>, 649, 132478. <a class="doi" href="https://doi.org/10.1016/j.jhydrol.2024.132478" target="_blank" rel="noopener">doi:10.1016/j.jhydrol.2024.132478</a></div></li>
     </ol>
     <p class="note"><a href="#publications">All publications</a> · <a href="cv.pdf" target="_blank" rel="noopener">CV (PDF)</a></p>
   </section>
